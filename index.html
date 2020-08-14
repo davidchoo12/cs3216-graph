@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>CS3216 assignments grouping network</title>
+  <style type="text/css">
+    body {
+      margin: 0;
+    }
+    svg, canvas {
+      height: 97vh;
+      width: 100vw;
+    }
+    text {
+      cursor: grab;
+    }
+  </style>
+</head>
+<body>
+Graph of CS3216 assignments grouping (AY2020/21 Sem 1)
+<script src="vivagraph.min.js"></script>
+<script type="text/javascript">
+nodes = ["Adam Chew Yong Soon","Agnes Natasya","Aung Thuya Oo","Bill Chee","Cai Jiaxiu","Calvin Chen Xingzhu","Chan Wai Hon Jonathan","Chow Yi Wai","Chow Yi Yin","Christian James Welly","Christopher Goh Zhen Fung","Daniel Wong Yong Shen","David Choo","Dong SiJi","Elliot Tan","Gabriel Tan Chuan En","Georgie Lee","He Xinyue","Ho Hol Yin","Jiang Yuxin","Jon Chua","Lim Yong Shen, Kevin","Liu Guangyuan (Gary)","Liu Zechu","Liu Zimu","Mario Lorenzo","Na Nazhou","Nelson Tan Kok Yi","Neo Ming Jie","Ong Yan Chun","Otto Alexander Sutianto","Pan Yongjing","Phillmont Muktar","Poh Lin Wei","See Zi Yang","Tan Jin Ying","Tan Teik Jun","Wang Runding","Yehezkiel Raymundo Theodoroes","Yen Ren Zuo Brian","Yoke Kai Xin"];
+data = [
+  [
+    ["Chow Yi Yin","He Xinyue","Ong Yan Chun","Yen Ren Zuo Brian"],
+    ["Christian James Welly","Gabriel Tan Chuan En","Phillmont Muktar","Chan Wai Hon Jonathan"],
+    ["Agnes Natasya","Christopher Goh Zhen Fung","Jon Chua","Lim Yong Shen, Kevin"],
+    ["Chow Yi Wai","Liu Zechu","Bill Chee","Yehezkiel Raymundo Theodoroes", "David Choo"],
+    ["Adam Chew Yong Soon","Daniel Wong Yong Shen","Elliot Tan","Poh Lin Wei"],
+    ["Cai Jiaxiu","Ho Hol Yin","Tan Teik Jun","Wang Runding"],
+    ["Otto Alexander Sutianto","See Zi Yang","Calvin Chen Xingzhu","Yoke Kai Xin"],
+    ["Mario Lorenzo","Na Nazhou","Jiang Yuxin","Neo Ming Jie"],
+    ["Nelson Tan Kok Yi","Pan Yongjing","Liu Guangyuan (Gary)","Liu Zimu"],
+    ["Aung Thuya Oo","Tan Jin Ying","Dong SiJi","Georgie Lee"]
+  ],
+  [
+    ["Cai Jiaxiu","Chow Yi Wai","Ong Yan Chun","Chan Wai Hon Jonathan"],
+    ["Christopher Goh Zhen Fung","He Xinyue","Elliot Tan","Georgie Lee","Pan Yongjing"],
+    ["Bill Chee","Jon Chua","See Zi Yang","Ho Hol Yin"],
+    ["Adam Chew Yong Soon","Phillmont Muktar","Dong SiJi","Otto Alexander Sutianto"],
+    ["Christian James Welly","Agnes Natasya","Aung Thuya Oo","Liu Guangyuan (Gary)"],
+    ["Daniel Wong Yong Shen","Yehezkiel Raymundo Theodoroes","Wang Runding","Na Nazhou"],
+    ["Liu Zechu","Gabriel Tan Chuan En","Chow Yi Yin","Tan Jin Ying"],
+    ["Lim Yong Shen, Kevin","Yen Ren Zuo Brian","Calvin Chen Xingzhu","Tan Teik Jun"],
+    ["Nelson Tan Kok Yi","Jiang Yuxin","Neo Ming Jie","David Choo"],
+    ["Poh Lin Wei","Liu Zimu","Mario Lorenzo","Yoke Kai Xin"]
+  ],
+  [
+    ["Christian James Welly","Mario Lorenzo","Otto Alexander Sutianto","Yehezkiel Raymundo Theodoroes","Nelson Tan Kok Yi"],
+    ["Adam Chew Yong Soon","Lim Yong Shen, Kevin","Gabriel Tan Chuan En","He Xinyue"],
+    ["Phillmont Muktar","Daniel Wong Yong Shen","Agnes Natasya","Tan Jin Ying"],
+    ["Chan Wai Hon Jonathan","Liu Guangyuan (Gary)","Georgie Lee","Neo Ming Jie"],
+    ["Elliot Tan","Liu Zimu","See Zi Yang","David Choo"],
+    ["Chow Yi Wai","Chow Yi Yin","Poh Lin Wei","Wang Runding"],
+    ["Jon Chua","Yen Ren Zuo Brian","Dong SiJi","Pan Yongjing"],
+    ["Ho Hol Yin","Liu Zechu","Ong Yan Chun","Jiang Yuxin"],
+    ["Christopher Goh Zhen Fung","Tan Teik Jun","Aung Thuya Oo","Yoke Kai Xin"],
+    ["Bill Chee","Cai Jiaxiu","Calvin Chen Xingzhu","Na Nazhou"]
+  ]
+];
+var graph = Viva.Graph.graph();
+for (node of nodes) {
+  graph.addNode(node, {name: node});
+}
+for (ass of data) {
+  for (row of ass) {
+    for (let i = 0; i < row.length; i++) {
+      for (let j = i + 1; j < row.length; j++) {
+        cell1 = row[i];
+        cell2 = row[j];
+        graph.addLink(cell1, cell2);
+      }
+    }
+  }
+}
+// Set custom nodes appearance
+var graphics = Viva.Graph.View.svgGraphics();
+graphics.node(function(node) {
+  // The function is called every time renderer needs a ui to display node
+  return Viva.Graph.svg('text')
+  .text(node.id);
+})
+.placeNode(function(nodeUI, pos){
+  nodeUI.attr('x', pos.x - 12).attr('y', pos.y - 12);
+});
+var layout = Viva.Graph.Layout.forceDirected(graph, {
+  springLength : 500,
+  springCoeff : 0.0005,
+  dragCoeff : 0.02,
+  gravity : -1.2
+});
+var renderer = Viva.Graph.View.renderer(graph, {
+  graphics: graphics,
+  layout: layout
+});
+renderer.run();
+setTimeout(e => renderer.pause(), 5000);
+</script>
+</body>
+</html>
+
+
